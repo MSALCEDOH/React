@@ -1,0 +1,83 @@
+using System;
+
+// Definición de la familia de vehículos eléctricos
+interface IVehiculoElectrico
+{
+    void CargarBateria();
+}
+
+class CocheElectrico : IVehiculoElectrico
+{
+    public void CargarBateria()
+    {
+        Console.WriteLine("Cargando la batería del coche eléctrico...");
+    }
+}
+
+// Definición de la familia de vehículos de gasolina
+interface IVehiculoGasolina
+{
+    void LlenarTanque();
+}
+
+class CocheGasolina : IVehiculoGasolina
+{
+    public void LlenarTanque()
+    {
+        Console.WriteLine("Llenando el tanque de gasolina del coche de gasolina...");
+    }
+}
+
+// Fábrica Abstracta
+interface IVehiculoFactory
+{
+    IVehiculoElectrico CrearVehiculoElectrico();
+    IVehiculoGasolina CrearVehiculoDeGasolina();
+}
+
+// Fábrica concreta para vehículos eléctricos
+class FabricaVehiculosElectricos : IVehiculoFactory
+{
+    public IVehiculoElectrico CrearVehiculoElectrico()
+    {
+        return new CocheElectrico();
+    }
+
+    public IVehiculoGasolina CrearVehiculoDeGasolina()
+    {
+        // En esta fábrica para vehículos eléctricos, no se crea un vehículo de gasolina.
+        // Esto ilustra cómo se pueden crear familias de objetos distintas en diferentes fábricas.
+        return null;
+    }
+}
+
+// Fábrica concreta para vehículos de gasolina
+class FabricaVehiculosDeGasolina : IVehiculoFactory
+{
+    public IVehiculoElectrico CrearVehiculoElectrico()
+    {
+        // En esta fábrica para vehículos de gasolina, no se crea un vehículo eléctrico.
+        return null;
+    }
+
+    public IVehiculoGasolina CrearVehiculoDeGasolina()
+    {
+        return new CocheGasolina();
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Usar la fábrica de vehículos eléctricos
+        IVehiculoFactory fabricaElectricos = new FabricaVehiculosElectricos();
+        var cocheElectrico = fabricaElectricos.CrearVehiculoElectrico();
+        cocheElectrico.CargarBateria();
+
+        // Usar la fábrica de vehículos de gasolina
+        IVehiculoFactory fabricaGasolina = new FabricaVehiculosDeGasolina();
+        var cocheGasolina = fabricaGasolina.CrearVehiculoDeGasolina();
+        cocheGasolina.LlenarTanque();
+    }
+}

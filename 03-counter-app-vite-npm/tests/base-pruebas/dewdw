@@ -1,0 +1,78 @@
+using System;
+
+// Interfaz abstracta para la fábrica de personajes
+interface ICharacterFactory
+{
+    ICharacter CreateWarrior();
+    ICharacter CreateMage();
+}
+
+// Interfaz abstracta para el personaje
+interface ICharacter
+{
+    void Display();
+}
+
+// Clase concreta para la fábrica de personajes de guerreros
+class WarriorFactory : ICharacterFactory
+{
+    public ICharacter CreateWarrior()
+    {
+        return new Warrior();
+    }
+
+    public ICharacter CreateMage()
+    {
+        return null; // La fábrica de guerreros no crea magos
+    }
+}
+
+// Clase concreta para la fábrica de personajes de magos
+class MageFactory : ICharacterFactory
+{
+    public ICharacter CreateWarrior()
+    {
+        return null; // La fábrica de magos no crea guerreros
+    }
+
+    public ICharacter CreateMage()
+    {
+        return new Mage();
+    }
+}
+
+// Clase concreta para el guerrero
+class Warrior : ICharacter
+{
+    public void Display()
+    {
+        Console.WriteLine("Soy un guerrero.");
+    }
+}
+
+// Clase concreta para el mago
+class Mage : ICharacter
+{
+    public void Display()
+    {
+        Console.WriteLine("Soy un mago.");
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Crear una fábrica de guerreros
+        ICharacterFactory warriorFactory = new WarriorFactory();
+        ICharacter warrior = warriorFactory.CreateWarrior();
+        warrior.Display();
+
+        Console.WriteLine();
+
+        // Crear una fábrica de magos
+        ICharacterFactory mageFactory = new MageFactory();
+        ICharacter mage = mageFactory.CreateMage();
+        mage.Display();
+    }
+}
